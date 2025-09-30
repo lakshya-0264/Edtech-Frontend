@@ -1,5 +1,5 @@
 import axios from 'axios';
-const BASE_URL = import.meta?.env?.VITE_BACKEND_URL || 'http://localhost:5000';
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
 async function request(path, options = {}) {
   const url = `${BASE_URL}${path}`;
