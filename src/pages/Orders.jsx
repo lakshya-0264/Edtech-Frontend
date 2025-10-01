@@ -8,8 +8,11 @@ export default function Orders() {
   const [stats, setStats] = React.useState(null);
 
   React.useEffect(() => {
-    Promise.all([api.listOrders(), fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'}/api/orders/analytics`).then(r=>r.json())])
-      .then(([ordersData, analytics]) => { setOrders(ordersData); setStats(analytics); })
+    Promise.all([api.listOrders(), api.ordersAnalytics()])
+      .then(([ordersData, analytics]) => {
+        setOrders(ordersData);
+        setStats(analytics);
+      })
       .catch(e => setError(e.message))
       .finally(() => setLoading(false));
   }, []);
@@ -27,7 +30,9 @@ export default function Orders() {
             <div className="text-slate-500 text-sm mb-2">Top Domains</div>
             <div className="flex flex-wrap gap-3">
               {stats.byDomain.map(d => (
-                <span key={d.domain} className="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-sm">{d.domain}: ${(d.totalAmount/100).toFixed(2)} ({d.count})</span>
+                <span key={d.domain} className="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-sm">
+                  {d.domain}: ${(d.totalAmount / 100).toFixed(2)} ({d.count})
+                </span>
               ))}
             </div>
           </div>
@@ -65,5 +70,3 @@ export default function Orders() {
     </div>
   );
 }
-
-

@@ -28,6 +28,7 @@ async function request(path, options = {}) {
 export const api = {
   health: () => request("/health"),
   listPrograms: (params = {}) => request("/api/programs", { params }),
+  listProgramsByDomain: (domain) => request(`/api/programs`, { params: { domain } }),
   getProgram: (id) => request(`/api/programs/${id}`),
   createProgram: (payload) =>
     request("/api/programs", { method: "POST", body: JSON.stringify(payload) }),
