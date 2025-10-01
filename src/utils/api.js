@@ -41,3 +41,21 @@ export const api = {
   listOrders: () => request("/api/orders"),
   ordersAnalytics: () => request("/api/orders/analytics"),
 };
+
+// Local favorites helpers
+export function toggleFavorite(id) {
+  const key = "favorites";
+  const current = JSON.parse(localStorage.getItem(key) || "[]");
+  const exists = current.includes(id);
+  const next = exists ? current.filter(x => x !== id) : [...current, id];
+  localStorage.setItem(key, JSON.stringify(next));
+  return next;
+}
+
+export function getFavorites() {
+  try {
+    return JSON.parse(localStorage.getItem("favorites") || "[]");
+  } catch {
+    return [];
+  }
+}
